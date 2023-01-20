@@ -12,7 +12,7 @@ const log = `
   travis_fold:end:worker_info
 `;
 
-describe('react-ansi', () => {
+describe('react-ansi-eighteen', () => {
   it('should render', () => {
     const wrapper = render(<ReactAnsi log={log} />);
     expect(wrapper);

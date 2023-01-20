@@ -3,10 +3,11 @@ import Anser, { AnserJsonEntry } from 'anser';
 import { escapeCarriageReturn } from 'escape-carriage';
 import { Partical } from '../matcher';
 import { ErrorMatcher, ErrorMatcherPattern } from '../errorMatcher';
-
+import { usePopper } from 'react-popper';
+import { Popper, Arrow, Manager } from 'react-popper';
 import styles from '../style/log.module.less';
 import { ErrorContext } from '../model/ErrorContext';
-
+import { useFloating } from '@floating-ui/react';
 export interface RawLoggerProps {
   partical: Partical;
   errorMatcher: ErrorMatcher;
@@ -15,6 +16,7 @@ export interface RawLoggerProps {
   useClasses?: boolean;
   linkify?: boolean;
   style?: React.CSSProperties;
+  updateActiveLine: () => void;
 }
 
 const LINK_REGEX =
@@ -125,6 +127,94 @@ function convertBundleIntoReact(
   return content;
 }
 
+// const Example1 = () => {
+//   const [state, setState] = useState({
+//     isOpen: false,
+//     target: null,
+//   });
+
+//   const handleClick = () => {
+//     setState((prevState) => ({
+//       ...prevState,
+//       isOpen: !prevState.isOpen,
+//     }));
+//   };
+
+//   return (
+//     <>
+//       <div
+//         ref={(div) => {
+//           setState((old) => {
+//             return { ...old, target: div };
+//           });
+//         }}
+//         style={{ width: 120, height: 120, background: '#b4da55' }}
+//         onClick={handleClick}
+//       >
+//         Click {state.isOpen ? 'to hide' : 'to show'} popper
+//       </div>
+//       {state.isOpen && (
+//         <Popper placement="top" className="popper" target={state.target}>
+//           {/* Popper Content for Standalone example */}
+//           <Arrow className="popper__arrow" />
+//         </Popper>
+//       )}
+//     </>
+//   );
+// };
+
+function Trap() {
+  const { x, y, strategy, refs } = useFloating();
+
+  return (
+    <>
+      <button ref={refs.setReference}>Button</button>
+      <div
+        ref={refs.setFloating}
+        style={{
+          position: strategy,
+          top: y ?? 0,
+          left: x ?? 0,
+          width: 'max-content',
+        }}
+      >
+        Tooltip
+      </div>
+    </>
+  );
+}
+
+const Example = () => {
+  const [referenceElement, setReferenceElement] = useState(null);
+  const [popperElement, setPopperElement] = useState(null);
+  const [arrowElement, setArrowElement] = useState(null);
+  const { styles, attributes } = usePopper(referenceElement, popperElement, {
+    modifiers: [{ name: 'arrow', options: { element: arrowElement } }],
+  });
+
+  return (
+    <>
+      <button type="button" ref={setReferenceElement}>
+        Reference element
+      </button>
+
+      <div
+        ref={setPopperElement}
+        style={
+          (styles.popper,
+          {
+            background: 'white',
+          })
+        }
+        {...attributes.popper}
+      >
+        Popper element
+        <div ref={setArrowElement} style={styles.arrow} />
+      </div>
+    </>
+  );
+};
+
 export function RawLogger({
   partical,
   errorMatcher,
@@ -134,10 +224,24 @@ export function RawLogger({
   linkify = false,
   forwardRef,
   style,
+  updateActiveLine,
 }: RawLoggerProps & { forwardRef?: React.ForwardedRef<any> }) {
   const { setErrorRefs } = useContext(ErrorContext);
   const lineProps = { useClasses, linkify, errorMatcher };
   const [fold, setFold] = useState(partical.fold);
+  const [isHovering, setIsHovering] = useState(false);
+
+  const handleMouseOver = () => {
+    setIsHovering(true);
+  };
+
+  const handleMouseOut = () => {
+    setIsHovering(false);
+  };
+
+  React.useEffect(() => {
+    updateActiveLine();
+  }, [isHovering]);
 
   const line = React.useMemo(() => {
     return ansiToJSON(partical.content).reduce(
@@ -180,7 +284,14 @@ export function RawLogger({
   }
 
   return (
-    <div ref={forwardRef} style={style} key={`line-${index}`}>
+    <div
+      ref={forwardRef}
+      style={style}
+      key={`line-${index}`}
+      onMouseOver={handleMouseOver}
+      onMouseOut={handleMouseOut}
+    >
+      {/* <pre>{JSON.stringify(line.content)}</pre> */}
       <Line
         {...lineProps}
         line={line.content}
@@ -188,6 +299,16 @@ export function RawLogger({
         index={index}
         saveRef={setErrorRefs}
       />
+      {/* <Menu>
+        <MenuItem label={line.content.length} />
+        <MenuItemCustom>
+          <pre>
+            {JSON.stringify({
+              time: 'something',
+            })}
+          </pre>
+        </MenuItemCustom>
+      </Menu> */}
     </div>
   );
 }

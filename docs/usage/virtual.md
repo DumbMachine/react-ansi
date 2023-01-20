@@ -2,7 +2,7 @@
 
 ```jsx
 import React from 'react';
-import ReactAnsi from 'react-ansi';
+import ReactAnsi from 'react-ansi-eighteen';
 import log from '../log.txt';
 
 export default () => (

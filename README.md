@@ -1,4 +1,4 @@
-# react-ansi-dumi
+# react-ansi-eighteen
 
 ## Getting Started
 

@@ -2,7 +2,7 @@
  * An foldable ansi logger for react
  * Inspired by ansi-to-react: https://github.com/nteract/nteract/blob/master/packages/ansi-to-react
  */
-import React, { useRef, useEffect, useState, useCallback, useMemo } from 'react';
+import React, { useRef, useEffect, useState, useCallback, useMemo, ReactNode } from 'react';
 import produce, { enableMapSet } from 'immer';
 import { _ } from './utils/i18n';
 import { Spliter, defaultMatchers } from './model/Spliter';
@@ -42,6 +42,7 @@ export interface FoldableLoggerProps {
     hasError: boolean;
     errors: Map<HTMLDivElement, ErrorMatcherPattern[]>;
   }) => JSX.Element;
+  popover?: ReactNode;
 }
 
 export default function FoldableLogger({
@@ -56,6 +57,7 @@ export default function FoldableLogger({
   showHeader = false,
   linkify = true,
   virtual = false,
+  popover,
 }: FoldableLoggerProps) {
   const [autoScrollFlag, setAutoScrollFlag] = useState(autoScroll);
   const bodyRef = useRef<HTMLDivElement>(null);
@@ -128,6 +130,7 @@ export default function FoldableLogger({
             errorMatcher={errorMatcher}
             virtual={virtual}
             autoScroll={autoScrollFlag}
+            popover={popover}
           />
         </div>
         <div className={styles.logFooter} onClick={scrollBodyToTop}>

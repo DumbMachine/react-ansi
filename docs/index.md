@@ -9,28 +9,28 @@ footer: Open-source MIT Licensed | Copyright © 2020<br />Powered by [dumi](http
 ---
 
 <p align="center">
-  <a href="https://github.com/RaoHai/react-ansi">
-    <img src="https://github.com/RaoHai/react-ansi/workflows/Node%20CI/badge.svg" alt="github action" />
+  <a href="https://github.com/RaoHai/react-ansi-eighteen">
+    <img src="https://github.com/RaoHai/react-ansi-eighteen/workflows/Node%20CI/badge.svg" alt="github action" />
   </a>
 
-  <a href="https://www.npmjs.com/package/react-ansi">
-    <img src="https://img.shields.io/npm/v/react-ansi.svg" alt="NPM" />
+  <a href="https://www.npmjs.com/package/react-ansi-eighteen">
+    <img src="https://img.shields.io/npm/v/react-ansi-eighteen.svg" alt="NPM" />
   </a>
 
   <a href="https://standardjs.com">
     <img src="https://img.shields.io/badge/code_style-standard-brightgreen.svg" alt="JavaScript Style Guide" />
   </a>
 
-  <a href="https://david-dm.org/RaoHai/react-ansi">
-    <img src="https://david-dm.org/RaoHai/react-ansi.svg" alt="Dependencies" />
+  <a href="https://david-dm.org/RaoHai/react-ansi-eighteen">
+    <img src="https://david-dm.org/RaoHai/react-ansi-eighteen.svg" alt="Dependencies" />
   </a>
 
-  <a href="https://travis-ci.org/RaoHai/react-ansi">
-    <img src="https://api.travis-ci.org/RaoHai/react-ansi.svg?branch=master" alt="Ci" />
+  <a href="https://travis-ci.org/RaoHai/react-ansi-eighteen">
+    <img src="https://api.travis-ci.org/RaoHai/react-ansi-eighteen.svg?branch=master" alt="Ci" />
   </a>
 
-  <a href="https://coveralls.io/github/RaoHai/react-ansi?branch=master">
-    <img src="https://coveralls.io/repos/github/RaoHai/react-ansi/badge.svg?branch=master" alt="Coverage Status" />
+  <a href="https://coveralls.io/github/RaoHai/react-ansi-eighteen?branch=master">
+    <img src="https://coveralls.io/repos/github/RaoHai/react-ansi-eighteen/badge.svg?branch=master" alt="Coverage Status" />
   </a>
 </p>
 
@@ -47,7 +47,7 @@ footer: Open-source MIT Licensed | Copyright © 2020<br />Powered by [dumi](http
 ## Install
 
 ```bash
-npm install --save react-ansi
+npm install --save react-ansi-eighteen
 ```
 
 ## Usage
@@ -55,7 +55,7 @@ npm install --save react-ansi
 ```
 import * as React from 'react'
 
-import ReactAnsi from 'react-ansi'
+import ReactAnsi from 'react-ansi-eighteen'
 
 function Example() {
   return (
