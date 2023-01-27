@@ -14,6 +14,7 @@ export interface RawLoggerProps {
   useClasses?: boolean;
   linkify?: boolean;
   style?: React.CSSProperties;
+  lineCSSClass?: string;
   updateActiveLine: () => void;
 }
 
@@ -191,6 +192,7 @@ export function RawLogger({
   linkify = false,
   forwardRef,
   style,
+  lineCSSClass,
   updateActiveLine,
 }: RawLoggerProps & { forwardRef?: React.ForwardedRef<any> }) {
   const { setErrorRefs } = useContext(ErrorContext);
@@ -245,6 +247,7 @@ export function RawLogger({
           errors={line.errors}
           index={index}
           saveRef={setErrorRefs}
+          lineCSSClass={lineCSSClass}
         />
       </div>
     );
@@ -265,6 +268,7 @@ export function RawLogger({
         errors={line.errors}
         index={index}
         saveRef={setErrorRefs}
+        lineCSSClass={lineCSSClass}
       />
       {/* <Menu>
         <MenuItem label={line.content.length} />
@@ -282,11 +286,13 @@ export function RawLogger({
 
 export function Line({
   line,
+  lineCSSClass,
   errors,
   index,
   saveRef,
 }: {
   line: string;
+  lineCSSClass?: string;
   errors: ErrorMatcher['patterns'];
   index: number;
   saveRef: (errors: ErrorMatcherPattern[], ref: HTMLDivElement) => void;
@@ -300,7 +306,13 @@ export function Line({
   }, [ref.current, errors]);
 
   return (
-    <div className={`${styles.logLine} ${errors.length ? styles.error : ''}`} key={index} ref={ref}>
+    <div
+      className={`${styles.logLine} ${errors.length ? styles.error : ''} ${
+        lineCSSClass ? lineCSSClass : ''
+      }`}
+      key={index}
+      ref={ref}
+    >
       <a className={styles.lineNo} key={`lineNo-${index}`}>
         {index}
       </a>

@@ -35,6 +35,7 @@ export interface FoldableLoggerProps {
   showHeader?: boolean;
   linkify?: boolean;
   virtual?: boolean;
+  lineCSSClass?: string;
   children?: ({
     hasError,
     errors,
@@ -58,6 +59,7 @@ export default function FoldableLogger({
   linkify = true,
   virtual = false,
   popover,
+  lineCSSClass,
 }: FoldableLoggerProps) {
   const [autoScrollFlag, setAutoScrollFlag] = useState(autoScroll);
   const bodyRef = useRef<HTMLDivElement>(null);
@@ -131,6 +133,7 @@ export default function FoldableLogger({
             virtual={virtual}
             autoScroll={autoScrollFlag}
             popover={popover}
+            lineCSSClass={lineCSSClass}
           />
         </div>
         <div className={styles.logFooter} onClick={scrollBodyToTop}>

@@ -9,7 +9,6 @@ import {
 import { Partical } from '../matcher';
 import RawLogger from './RawLogger';
 import { ErrorMatcher } from '../errorMatcher';
-import { Menu, MenuItem, MenuItemCustom } from './ContextMenu';
 
 import styles from '../style/log.module.less';
 
@@ -21,6 +20,7 @@ export interface LogContent {
   errorMatcher: ErrorMatcher;
   autoScroll?: boolean;
   popover?: ReactNode;
+  lineCSSClass?: string;
 }
 
 const measurementCache = new CellMeasurerCache({
@@ -87,6 +87,7 @@ export function ClassicLogContent({
   style,
   linkify,
   errorMatcher,
+  lineCSSClass,
   popover,
 }: LogContent) {
   const [state, setState] = React.useState({
@@ -100,33 +101,24 @@ export function ClassicLogContent({
   };
 
   return (
-    <>
-      {state.activeLine > -1 && (
-        <div style={{ backgroundColor: 'white' }}>
-          {`Who is active? ->`} {state.activeLine}
-        </div>
-      )}
-      <pre id="log" className={styles.ansi} style={style}>
-        {particals.map((partical, index) => {
-          return (
-            <RawLogger
-              key={`logger-line-${index}`}
-              foldable={partical.type === 'partical'}
-              partical={partical}
-              index={index}
-              linkify={linkify}
-              errorMatcher={errorMatcher}
-              updateActiveLine={() => {
-                setActiveLine(index);
-              }}
-            />
-          );
-        })}
-      </pre>
-      <Menu>
-        <MenuItemCustom>{popover}</MenuItemCustom>
-      </Menu>
-    </>
+    <pre id="log" className={styles.ansi} style={style}>
+      {particals.map((partical, index) => {
+        return (
+          <RawLogger
+            key={`logger-line-${index}`}
+            foldable={partical.type === 'partical'}
+            partical={partical}
+            index={index}
+            linkify={linkify}
+            errorMatcher={errorMatcher}
+            lineCSSClass={lineCSSClass}
+            updateActiveLine={() => {
+              setActiveLine(index);
+            }}
+          />
+        );
+      })}
+    </pre>
   );
 }
 
